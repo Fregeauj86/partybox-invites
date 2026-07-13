@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PartyBox Invite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial; 
+           text-align: center; padding: 20px; background: #0A0A0A; color: #fff; }
+    .container { max-width: 400px; margin: 50px auto; }
+    h1 { font-size: 24px; margin-bottom: 20px; }
+    p { font-size: 16px; margin: 15px 0; color: #ccc; }
+    .button { display: inline-block; padding: 14px 28px; margin: 10px; 
+              font-size: 16px; border: none; border-radius: 8px; cursor: pointer; 
+              text-decoration: none; font-weight: 600; }
+    .primary { background: #FF7043; color: #000; }
+    .primary:hover { background: #FF8A65; }
+    .secondary { background: #29B6F6; color: #000; }
+    .secondary:hover { background: #42A5F5; }
+    .loading { display: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 PartyBox Invite</h1>
+    <p id="message">Checking for PartyBox app...</p>
+    <div class="loading" id="loading">
+      <p>Opening PartyBox...</p>
+    </div>
+    <div id="fallback" style="display: none;">
+      <p>Download PartyBox to join this party!</p>
+      <a href="https://play.google.com/store/apps/details?id=com.example.partybox" class="button primary">
+        Download from Play Store
+      </a>
+      <p style="font-size: 12px; margin-top: 20px;">
+        Or tap the button below if you already have it:
+      </p>
+      <a href="" id="appLink" class="button secondary">Open in PartyBox</a>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get('id');
+    
+    if (!eventId) {
+      document.getElementById('message').textContent = 'Invalid invite link.';
+      return;
+    }
+
+    const deepLink = `partybox://join-event/${eventId}`;
+    document.getElementById('appLink').href = deepLink;
+
+    // Try to open the app
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('message').style.display = 'none';
+
+    const timeout = setTimeout(() => {
+      // App didn't open - show fallback
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('fallback').style.display = 'block';
+      document.getElementById('message').textContent = 'App not detected. Download below:';
+      document.getElementById('message').style.display = 'block';
+    }, 2000);
+
+    // Try to open the deep link
+    window.location.href = deepLink;
+
+    // If we get here, the link worked
+    setTimeout(() => clearTimeout(timeout), 5000);
+  </script>
+</body>
+</html>
