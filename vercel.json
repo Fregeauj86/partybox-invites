@@ -1,8 +1,5 @@
 {
   "rewrites": [
-    {
-      "source": "/invite",
-      "destination": "/public/invite.html"
-    }
+    { "source": "/invite", "destination": "/public/invite.html" }
   ]
 }
