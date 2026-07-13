@@ -1,5 +1,4 @@
 {
-  "rewrites": [
-    { "source": "/invite", "destination": "/public/invite.html" }
-  ]
+  "buildCommand": "",
+  "outputDirectory": "."
 }
